@@ -1,8 +1,7 @@
 import Vue from 'vue'
-import Vuetify, {
-
-} from 'vuetify'
+import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
+
 Vue.use(Vuetify)
 
 export default new Vuetify({
@@ -15,5 +14,8 @@ export default new Vuetify({
                 error: '#b71c1c',
             },
         },
+    },
+    icons: {
+        iconfont: 'mdiSvg',
     },
 })
