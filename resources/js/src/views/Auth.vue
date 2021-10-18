@@ -43,7 +43,7 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, maxLength, email } from "vuelidate/lib/validators";
+import { required, maxLength, email, minLength } from "vuelidate/lib/validators";
 
 export default {
   mixins: [validationMixin],
