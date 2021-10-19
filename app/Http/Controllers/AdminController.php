@@ -2,83 +2,63 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
+use App\Models\School;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string', 'min:8', 'max:255'],
+            'schoolName' => ['required', 'string', 'min:10']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create admin.',
+                'data' => $validator->errors()
+            ], 400);
+        }
+
+        $isCreated = $this->_create($request->all());
+
+        if ($isCreated) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Admin account created.',
+                'data'    => $isCreated
+            ], 201);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to create admin.',
+        ], 409);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    protected function _create(array $data)
     {
-        //
-    }
+        if(Admin::where('email', $data['email'])->first() || School::where('schoolId', str_replace(' ', '-', Str::lower($data['schoolName'])))->first()) {
+            return false;
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $isSchoolCreated = School::create([
+            'schoolId' => str_replace(' ', '-', Str::lower($data['schoolName'])),
+            'schoolName' => $data['schoolName'],
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        $isAdminCreated = Admin::create([
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'schoolId' => $isSchoolCreated->schoolId,
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return $isAdminCreated;
     }
 }
