@@ -33,7 +33,7 @@ class LoginController extends Controller
             ], 404);
         }
 
-        $token = $admin->createToken('token')->plainTextToken;
+        $token = $admin->createToken('token_login')->plainTextToken;
 
         $response = [
             'success'   => true,
