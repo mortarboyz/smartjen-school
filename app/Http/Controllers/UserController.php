@@ -100,7 +100,19 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $user = User::firstOrFail($id);
+            return response()->json([
+                'success' => true,
+                'message' => 'Get user data success.',
+                'data'    => $user
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to get user.',
+            ], 404);
+        }
     }
 
     /**
