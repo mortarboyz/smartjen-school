@@ -17,9 +17,9 @@ class CreateAdminsTable extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('schoolId');
+            $table->bigInteger('schoolId')->unsigned();
             $table->timestamps();
-            $table->foreign('schoolId')->references('schoolId')->on('schools')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('schoolId')->references('id')->on('schools')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

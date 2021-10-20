@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +18,5 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->group(function () {
     Route::post('/register', [AdminController::class, 'store']);
     Route::post('/login', [LoginController::class, 'authenticate']);
-    Route::post('/invite', function (Request $request) {
-        return response()->json('asdasd');
-    })->middleware(['auth:sanctum:admins']);
+    Route::post('/invite', [AdminController::class, 'invite'])->middleware(['auth:sanctum:admins']);
 });

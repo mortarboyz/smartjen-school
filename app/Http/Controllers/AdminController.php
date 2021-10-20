@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\School;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -46,19 +47,73 @@ class AdminController extends Controller
         ], 409);
     }
 
+    public function invite(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'username' => ['required', 'string', 'min:8', 'max:255', 'unique:users,username'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'role' => ['required', 'integer', 'exists:roles,id'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to invite user.',
+                'data' => $validator->errors()
+            ], 400);
+        };
+
+        $isCreated = $this->_invite($request->all(), $request->user()->schoolId);
+
+        if ($isCreated) {
+            // TODO: SEND EMAIL TO TARGET;
+            return response()->json([
+                'success' => true,
+                'message' => 'Account invited.',
+                'data'    => [
+                    'user' => $isCreated,
+                ]
+            ], 201);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to invite user.',
+        ], 409);
+    }
+
     protected function _create(array $data)
     {
-        $isSchoolCreated = School::create([
-            'schoolId' => str_replace(' ', '-', Str::lower($data['schoolName'])),
-            'schoolName' => $data['schoolName'],
-        ]);
+        try {
+            $isSchoolCreated = School::create([
+                'schoolId' => str_replace(' ', '-', Str::lower($data['schoolName'])),
+                'schoolName' => $data['schoolName'],
+            ]);
 
-        $isAdminCreated = Admin::create([
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'schoolId' => $isSchoolCreated->schoolId,
-        ]);
+            $isAdminCreated = Admin::create([
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'schoolId' => $isSchoolCreated->id,
+            ]);
+            return $isAdminCreated;
+        } catch (\Throwable $th) {
+            return false;
+        }
+    }
 
-        return $isAdminCreated;
+    protected function _invite(array $data, $schoolId)
+    {
+        try {
+            $randomStringForPassword = Str::random(8);
+            $invitedUsers = User::create([
+                'username' => $data['username'],
+                'email' => $data['email'],
+                'roleId' => $data['role'],
+                'schoolId' => $schoolId,
+                'password' => Hash::make($randomStringForPassword)
+            ]);
+            return $invitedUsers;
+        } catch (\Throwable $th) {
+            return false;
+        }
     }
 }
