@@ -63,7 +63,7 @@ class AdminController extends Controller
             ], 400);
         };
 
-        $isCreated = $this->_invite($request->all(), $request->user()->schoolId);
+        $isCreated = $this->_invite($request->all(), $request->user()->schoolId, $randomStringForPassword = Str::random(8));
 
         if ($isCreated) {
             // TODO: SEND EMAIL TO TARGET;
@@ -72,6 +72,7 @@ class AdminController extends Controller
                 'message' => 'Account invited.',
                 'data'    => [
                     'user' => $isCreated,
+                    'password' => $randomStringForPassword,
                 ]
             ], 201);
         }
@@ -100,16 +101,15 @@ class AdminController extends Controller
         }
     }
 
-    protected function _invite(array $data, $schoolId)
+    protected function _invite(array $data, $schoolId, $randomPassword)
     {
         try {
-            $randomStringForPassword = Str::random(8);
             $invitedUsers = User::create([
                 'username' => $data['username'],
                 'email' => $data['email'],
                 'roleId' => $data['role'],
                 'schoolId' => $schoolId,
-                'password' => Hash::make($randomStringForPassword)
+                'password' => Hash::make($randomPassword)
             ]);
             return $invitedUsers;
         } catch (\Throwable $th) {
