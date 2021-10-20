@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Invitation;
 use App\Models\Admin;
+use App\Models\Role;
 use App\Models\School;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -67,6 +70,7 @@ class AdminController extends Controller
 
         if ($isCreated) {
             // TODO: SEND EMAIL TO TARGET;
+            $this->_sendmail($request->user(), $isCreated, $randomStringForPassword);
             return response()->json([
                 'success' => true,
                 'message' => 'Account invited.',
@@ -115,5 +119,19 @@ class AdminController extends Controller
         } catch (\Throwable $th) {
             return false;
         }
+    }
+
+    protected function _sendmail($senderData, $targetData, $passwordString)
+    {
+        $role = Role::findOrFail($targetData->roleId);
+        $mailData = [
+            'senderName' => 'School Admin',
+            'senderEmail' => $senderData->email,
+            'targetName' => $targetData->username,
+            'targetEmail' => $targetData->email,
+            'password' => $passwordString,
+            'role' => $role->name
+        ];
+        Mail::to($mailData['targetEmail'], $mailData['targetName'])->send(new Invitation($mailData));
     }
 }
