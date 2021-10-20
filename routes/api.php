@@ -19,4 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->group(function () {
     Route::post('/register', [AdminController::class, 'store']);
     Route::post('/login', [LoginController::class, 'authenticate']);
+    Route::post('/invite', function (Request $request) {
+        return response()->json('asdasd');
+    })->middleware(['auth:sanctum:admins']);
 });

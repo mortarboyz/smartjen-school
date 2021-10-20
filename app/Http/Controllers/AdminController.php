@@ -36,7 +36,7 @@ class AdminController extends Controller
                 'message' => 'Admin account created.',
                 'data'    => [
                     'user' => $isCreated,
-                    'token' => $isCreated->createToken('token')->plainTextToken,
+                    'token' => $isCreated->createToken('token_admin')->plainTextToken,
                 ]
             ], 201);
         }
