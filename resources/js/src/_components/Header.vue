@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer app>
+    <v-navigation-drawer app v-model="drawer">
       <v-list nav dense>
         <v-list-item-group
           v-model="group"
@@ -24,7 +24,7 @@
     </v-navigation-drawer>
 
     <v-app-bar app>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawer = (drawer) ? false : true"></v-app-bar-nav-icon>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
     </v-app-bar>
   </div>
@@ -34,7 +34,7 @@
 import { mdiLogout, mdiAccountGroup } from "@mdi/js";
 export default {
   data: () => ({
-    drawer: false,
+    drawer: true,
     group: null,
     icon: {
       users: mdiAccountGroup,
@@ -44,7 +44,7 @@ export default {
   props: ["title"],
   methods: {
     logout() {
-      this.$router.push('/login');
+      this.$router.push("/login");
     },
   },
 };
