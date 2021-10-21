@@ -6,15 +6,9 @@
 import vuetify from './vuetify';
 import router from './src/router/index';
 import Vue from 'vue';
-import VueRouter from 'vue-router';
 require('./bootstrap');
 
 window.Vue = require('vue').default;
-
-/**
- * Import Use
- */
-Vue.use(VueRouter);
 
 /**
  * The following block of code may be used to automatically register your

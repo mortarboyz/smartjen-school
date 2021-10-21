@@ -1,7 +1,7 @@
 <template>
   <!-- App.vue -->
   <v-app>
-    <Header></Header>
+    <Header :title="title"></Header>
     <!-- Sizes your content based upon application components -->
     <v-main>
       <!-- Provides the application the proper gutter -->
@@ -18,6 +18,9 @@
 import Header from "../_components/Header.vue";
 import Footer from "../_components/Footer.vue";
 export default {
+  props: {
+    title: String
+  },
   components: {
     Header,
     Footer,
