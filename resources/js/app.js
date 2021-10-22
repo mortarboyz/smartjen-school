@@ -3,9 +3,10 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+import Vue from 'vue';
 import vuetify from './vuetify';
 import router from './src/router/index';
-import Vue from 'vue';
+import store from './src/store/index';
 require('./bootstrap');
 
 window.Vue = require('vue').default;
@@ -32,5 +33,6 @@ Vue.component('app', require('./src/App.vue').default);
 new Vue({
     el: '#root',
     vuetify,
-    router
+    router,
+    store,
 });
