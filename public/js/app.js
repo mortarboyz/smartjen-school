@@ -2072,17 +2072,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  methods: {
-    increase: function increase() {
-      this.$store.commit('increment');
-      console.log(this.$store.state.count);
-    }
-  }
-});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
 
@@ -38227,17 +38217,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "v-app",
-    [
-      _c("router-view"),
-      _vm._v(" "),
-      _c("v-btn", { on: { click: _vm.increase } }, [
-        _vm._v("\n      TEST BUTTON\n  ")
-      ])
-    ],
-    1
-  )
+  return _c("v-app", [_c("router-view")], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
