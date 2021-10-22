@@ -3,13 +3,13 @@
     <v-toolbar flat>
       <v-spacer></v-spacer>
       <!-- Add User Dialog -->
-      <v-dialog max-width="500px">
+      <v-dialog max-width="500px" v-model="dialog">
         <template v-slot:activator="{ on, attrs }">
           <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
             Add User
           </v-btn>
         </template>
-        <AddDialog />
+        <AddDialog @closeDialog = "dialog = false" />
       </v-dialog>
       <!-- Invite User Dialog -->
       <v-dialog max-width="500px">
@@ -49,7 +49,7 @@ export default {
     return {
       tab: null,
       items: ["Teacher", "Student"],
-      dialogs: false,
+      dialog: false,
     };
   },
   components: {

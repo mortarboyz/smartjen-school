@@ -45,7 +45,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" class="mr-4" @click="submit"> submit </v-btn>
-        <v-btn @click="dialog = false"> cancel </v-btn>
+        <v-btn @click="$emit('closeDialog')"> cancel </v-btn>
       </v-card-actions>
     </v-card>
   </form>
@@ -132,8 +132,15 @@ export default {
       if (!this.$v.$invalid) {
         // Add API
         console.log(this.form);
-        this.$v.reset();
+        this.reset();
       }
+    },
+
+    reset() {
+      this.$data.form.email = null;
+      this.$data.form.username = null;
+      this.$data.form.password = null;
+      this.$data.form.role = null;
     },
   },
 };
