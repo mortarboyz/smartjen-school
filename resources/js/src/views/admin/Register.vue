@@ -121,7 +121,11 @@ export default {
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        // Add API
+        this.$store.login.dispatch('register', {
+            email: this.email,
+            password: this.password,
+            schoolName: this.schoolName,
+        });
         this.snackbar.state.text = this.snackbar.text.success.text;
         this.snackbar.state.color = this.snackbar.text.success.color;
         this.snackbar.state.show = true;
