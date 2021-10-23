@@ -56,5 +56,15 @@ export default {
     TableList,
     AddDialog
   },
+  methods: {
+      inc() {
+          console.log(this.$store.state.count);
+      }
+  },
+  computed: {
+      getCount() {
+          return this.$store.state.count;
+      }
+  }
 };
 </script>

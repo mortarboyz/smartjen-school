@@ -14,13 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('roles')->insert([
-            [
-                'name' => 'Teacher',
-            ],
-            [
-                'name' => 'Student',
-            ]
+        $this->call([
+            RoleSeeder::class,
+            SchoolSeeder::class,
+            AdminSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }
