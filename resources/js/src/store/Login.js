@@ -1,39 +1,23 @@
-import axios from 'axios';
-import authService from '../services/AuthService';
-
-const initialState = {
-    isLogin: false,
-    token: null,
-    user: null,
-}
-
 export default {
-    state: initialState,
+    namespaced: true,
+    state: () => ({
+        isLogin: false,
+        token: null,
+        user: null,
+    }),
     actions: {
-        login(user) {
-            return authService.login(user).then(res => {
-                console.log('loginAction', res);
-            })
+        send({ commit }, data) {
+            // TODO Add Service to send payload to api endpoint
+            console.log('login', data)
         },
-        register(user) {
-            return authService.register(user).then(res => {
-                console.log('registerAction', res);
-            });
-        }
     },
     mutations: {
-        loginSuccess() {
-
+        success() {
+            console.log('loginSuccess');
         },
-        loginFailed() {
-
+        failed() {
+            console.log('loginFailed');
         },
-        registerSuccess() {
-            this.state = initialState;
-        },
-        registerFailed() {
-            this.state = initialState;
-        }
     },
     getters: {
 

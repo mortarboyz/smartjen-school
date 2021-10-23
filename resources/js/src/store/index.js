@@ -7,8 +7,13 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
-      login: Login
-  }
+      auth: {
+          namespaced: true,
+          modules: {
+              login: Login,
+          }
+      }
+  },
 })
 
 export default store;
