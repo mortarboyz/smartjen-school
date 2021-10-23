@@ -27,7 +27,7 @@ class AdminFactory extends Factory
             'email' => $this->faker->email(),
             // 'roleId' => $this->faker->numberBetween(1, 2),
             'schoolId' => $this->faker->numberBetween(1, 2),
-            'password' => Hash::make(12345678)
+            'password' => Hash::make('password')
         ];
     }
 }
