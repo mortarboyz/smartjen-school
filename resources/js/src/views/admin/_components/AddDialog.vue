@@ -180,6 +180,10 @@ export default {
         }
         if (this.$props.editableIndex > 0) {
           console.log(this.form);
+          this.$store.dispatch("users/editUser", {
+              id: this.$props.editableIndex,
+              form: this.form,
+          });
           this.reset();
           this.$emit("closeDialog");
           return;

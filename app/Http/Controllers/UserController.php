@@ -140,10 +140,11 @@ class UserController extends Controller
     {
         try {
             $data = $request->except('schoolId', 'roleId');
-            $data['password'] = Hash::make($data['password']);
+            if ($request->input('password')) $data['password'] = Hash::make($data['password']);
+
             $validator = Validator::make($data, [
-                'username' => ['string', 'min:8', 'max:255', 'unique:users,username'],
-                'email' => ['string', 'email', 'max:255', 'unique:users,email'],
+                'username' => ['string', 'min:8', 'max:255',],
+                'email' => ['string', 'email', 'max:255',],
                 'password' => ['string', 'min:8']
             ]);
             if ($validator->fails()) {

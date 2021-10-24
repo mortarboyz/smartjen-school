@@ -47,7 +47,13 @@ export default {
                 dispatch('getTeacherData');
                 dispatch('getStudentData');
             });
-        }
+        },
+        editUser({ commit, dispatch }, data) {
+            UserService.update(data).then(() => {
+                dispatch('getTeacherData');
+                dispatch('getStudentData');
+            });
+        },
     },
     mutations: {
         setTeacher(state, data) {

@@ -53,8 +53,15 @@ class UserService {
             .then(r => r)
     }
 
-    update() {
-
+    update(data) {
+        return axios.put(API_USER_DETAIL.replace(':id', data.id), data.form, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+            .then((res) => {
+                return res.status;
+            });
     }
 
     delete(id) {
