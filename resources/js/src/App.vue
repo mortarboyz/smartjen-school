@@ -7,5 +7,8 @@
 
 <script>
 export default {
-}
+  mounted() {
+    this.$store.dispatch("users/getRolesData");
+  },
+};
 </script>

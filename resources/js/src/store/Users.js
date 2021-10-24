@@ -5,6 +5,7 @@ export default {
     state: () => ({
         teachers: [],
         students: [],
+        roles: [],
     }),
     actions: {
         getTeacherData({ commit }) {
@@ -21,6 +22,13 @@ export default {
                 commit('setStudent', []);
             });
         },
+        getRolesData({ commit }) {
+            UserService.getAllRoles().then((res) => {
+                commit('setRoles', res.data)
+            }).catch(x => {
+                commit('setRoles', []);
+            });
+        },
         deleteUser({ commit, dispatch }, id) {
             UserService.delete(id).then((res) => {
                 dispatch('getTeacherData');
@@ -34,6 +42,9 @@ export default {
         },
         setStudent(state, data) {
             state.students = data;
+        },
+        setRoles(state, data) {
+            state.roles = data;
         }
     },
     getters: {
@@ -42,6 +53,14 @@ export default {
         },
         getStudent(state) {
             return state.students;
+        },
+        getRoles(state) {
+            return state.roles.map(r => {
+                return {
+                    text: r.name,
+                    value: r.id,
+                }
+            });
         }
     }
 }

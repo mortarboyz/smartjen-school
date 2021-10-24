@@ -31,7 +31,7 @@
         ></v-text-field>
         <v-select
           v-model="form.role"
-          :items="data.roles"
+          :items="this.$store.getters['users/getRoles']"
           :error-messages="roleErrors"
           label="Role"
           required
@@ -66,18 +66,6 @@ export default {
         username: null,
         password: null,
         role: null,
-      },
-      data: {
-        roles: [
-          {
-            text: "Teacher",
-            value: 1,
-          },
-          {
-            text: "Student",
-            value: 2,
-          },
-        ],
       },
     };
   },

@@ -22,3 +22,4 @@ Route::prefix('admin')->group(function () {
     Route::post('/invite', [AdminController::class, 'invite'])->middleware(['auth:sanctum:admins']);
 });
 Route::resource('users', UserController::class)->except(['create', 'edit']);
+Route::get('roles', [UserController::class, 'getRoles']);

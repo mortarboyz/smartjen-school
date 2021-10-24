@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +13,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum:admins')->except('index');
+        $this->middleware('auth:sanctum:admins')->except('index', 'getRoles');
     }
     /**
      * Display a listing of the resource.
@@ -187,5 +188,21 @@ class UserController extends Controller
                 'message' => 'Failed to delete user.',
             ], 409);
         }
+    }
+
+    public function getRoles() {
+        $result = Role::all();
+
+        if ($result) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Get roles success.',
+                'data'    => $result
+            ], 201);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'No data found.',
+        ], 404);
     }
 }

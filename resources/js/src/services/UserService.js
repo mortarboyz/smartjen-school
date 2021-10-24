@@ -2,6 +2,7 @@ import axios from 'axios'
 import AuthService from './AuthService';
 
 const API_BASE_URL = 'http://localhost:8000/api';
+const API_ROLE = API_BASE_URL + '/roles'
 const API_USER = API_BASE_URL + '/users';
 const API_USER_DETAIL = API_USER + '/:id';
 
@@ -12,6 +13,11 @@ let http = axios.create({
 });
 
 class UserService {
+    getAllRoles() {
+        return http.get(API_ROLE)
+        .then(res => res.data);
+    }
+
     getAllTeacher() {
         return http.get(API_USER, {
             params: {
