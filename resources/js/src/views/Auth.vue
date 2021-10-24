@@ -151,6 +151,7 @@ export default {
           })
           .finally(() => {
             this.submitBtn = false;
+            this.$router.push('/admin/')
           });
       }
     },

@@ -9,7 +9,6 @@ export default {
     },
     mutations: {
         init(state) {
-            console.log('init', state.isLogin)
             let userData = localStorage.getItem('access') ? (JSON.parse(localStorage.getItem('access'))) : '';
             if (userData.token && userData.user) {
                 state.isLogin = true;
@@ -33,7 +32,6 @@ export default {
     },
     getters: {
         getLoginState(state, getters) {
-            console.log('islogin', state.isLogin)
             return state.isLogin
         },
     }

@@ -47,7 +47,7 @@ export default {
   methods: {
     logout() {
       this.$store.commit("auth/login/logout");
-      this.$router.push("admin/login");
+      this.$router.go();
     },
   },
 };
