@@ -22,7 +22,7 @@ class SchoolFactory extends Factory
      */
     public function definition()
     {
-        $schoolName = $this->faker->words(2, true);
+        $schoolName = $this->faker->words(3, true);
         return [
             'schoolId' => str_replace(' ', '-', Str::lower($schoolName)),
             'schoolName' => $schoolName

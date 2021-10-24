@@ -15,5 +15,5 @@ const store = new Vuex.Store({
       }
   },
 })
-
+store.commit('auth/login/init');
 export default store;

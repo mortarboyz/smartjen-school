@@ -32,7 +32,7 @@ Vue.component('app', require('./src/App.vue').default);
 
 new Vue({
     el: '#root',
+    store,
     vuetify,
     router,
-    store,
 });

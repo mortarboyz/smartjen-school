@@ -8,6 +8,7 @@ class AuthService {
     login(data) {
         return axios.post(API_ADMIN_LOGIN, data)
             .then(res => {
+                if(res.data.token) localStorage.setItem('user', JSON.stringify(res.data))
                 return res.data
             })
     }

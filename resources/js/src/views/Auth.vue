@@ -33,7 +33,12 @@
               @blur="$v.schoolId.$touch()"
             ></v-text-field>
 
-            <v-btn class="mr-4" color="success" @click="submit">
+            <v-btn
+              class="mr-4"
+              color="success"
+              :disabled="submitBtn"
+              @click="submit"
+            >
               login
             </v-btn>
             <v-btn to="/admin/register"> register </v-btn>
@@ -58,12 +63,14 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, email, minLength } from "vuelidate/lib/validators";
+import AuthService from "../services/AuthService";
 
 export default {
   data: () => ({
     email: null,
     password: null,
     schoolId: null,
+    submitBtn: false,
     snackbar: {
       state: {
         show: false,
@@ -121,12 +128,30 @@ export default {
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        // Add API
-        this.snackbar.state.text = this.snackbar.text.success.text;
-        this.snackbar.state.color = this.snackbar.text.success.color;
-        this.snackbar.state.show = true;
-
-        this.$router.push('.');
+        this.submitBtn = true;
+        AuthService.login({
+          email: this.email,
+          password: this.password,
+          schoolId: this.schoolId,
+        })
+          .then((res) => {
+            this.snackbar.state.show = true;
+            this.snackbar.state.text = this.snackbar.text.success.text;
+            this.snackbar.state.color = this.snackbar.text.success.color;
+            this.email = null;
+            this.password = null;
+            this.schoolId = null;
+            this.$store.commit('auth/login/success', res.data)
+          })
+          .catch(() => {
+            this.snackbar.state.show = true;
+            this.snackbar.state.text = this.snackbar.text.failed.text;
+            this.snackbar.state.color = this.snackbar.text.failed.color;
+            this.$store.commit('auth/login/failed')
+          })
+          .finally(() => {
+            this.submitBtn = false;
+          });
       }
     },
   },
