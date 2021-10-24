@@ -9,7 +9,7 @@
             Add User
           </v-btn>
         </template>
-        <AddDialog @closeDialog = "dialog = false" />
+        <AddDialog @closeDialog="dialog = false" />
       </v-dialog>
       <!-- Invite User Dialog -->
       <v-dialog max-width="500px">
@@ -32,10 +32,10 @@
       </v-tab>
       <v-tabs-items v-model="tab">
         <v-tab-item>
-          <TableList />
+          <TableList :headers="this.data.teacher.headers" :data="this.data.teacher.data" />
         </v-tab-item>
         <v-tab-item>
-          <TableList />
+          <TableList :headers="this.data.student.headers" :data="this.data.student.data" />
         </v-tab-item>
       </v-tabs-items>
     </v-tabs>
@@ -50,21 +50,47 @@ export default {
       tab: null,
       items: ["Teacher", "Student"],
       dialog: false,
+      data: {
+        teacher: {
+          headers: [
+            { text: "Username", value: "username" },
+            { text: "Email", value: "email" },
+          ],
+          data: [
+            {
+              username: "Test",
+              email: "email@example.com",
+            },
+          ],
+        },
+        student: {
+          headers: [
+            { text: "Username", value: "username" },
+            { text: "Email", value: "email" },
+          ],
+          data: [
+            {
+              username: "Test",
+              email: "email@example.com",
+            },
+          ],
+        },
+      },
     };
   },
   components: {
     TableList,
-    AddDialog
+    AddDialog,
   },
   methods: {
-      inc() {
-          console.log(this.$store.state.count);
-      }
+    inc() {
+      console.log(this.$store.state.count);
+    },
   },
   computed: {
-      getCount() {
-          return this.$store.state.count;
-      }
-  }
+    getCount() {
+      return this.$store.state.count;
+    },
+  },
 };
 </script>
