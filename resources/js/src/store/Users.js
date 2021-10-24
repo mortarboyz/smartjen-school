@@ -29,17 +29,23 @@ export default {
                 commit('setRoles', []);
             });
         },
+        invite({commit, dispatch}, data) {
+            UserService.sendInvite(data).then(() => {
+                dispatch('getTeacherData');
+                dispatch('getStudentData');
+            });
+        },
         addUser({ commit, dispatch }, data) {
             UserService.addUser(data).then(() => {
                 dispatch('getTeacherData');
                 dispatch('getStudentData');
-            })
+            });
         },
         deleteUser({ commit, dispatch }, id) {
             UserService.delete(id).then(() => {
                 dispatch('getTeacherData');
                 dispatch('getStudentData');
-            })
+            });
         }
     },
     mutations: {

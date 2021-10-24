@@ -1,7 +1,7 @@
 <template>
   <form>
     <v-card>
-      <v-card-title class="text-h5 grey lighten-2"> Add User </v-card-title>
+      <v-card-title class="text-h5 grey lighten-2"> {{ title }} </v-card-title>
 
       <v-card-text>
         <v-text-field
@@ -21,6 +21,7 @@
           @blur="$v.form.username.$touch()"
         ></v-text-field>
         <v-text-field
+          v-if="!invite"
           v-model="form.password"
           :error-messages="passwordErrors"
           label="Password"
@@ -60,28 +61,54 @@ export default {
     invite: Boolean,
   },
   data() {
-    return {
-      form: {
-        email: null,
-        username: null,
-        password: null,
-        role: null,
-      },
-    };
+    if (this.$props.invite) {
+      return {
+        form: {
+          email: null,
+          username: null,
+          role: null,
+        },
+      };
+    } else {
+      return {
+        form: {
+          email: null,
+          username: null,
+          password: null,
+          role: null,
+        },
+      };
+    }
   },
 
   mixins: [validationMixin],
 
-  validations: {
-    form: {
-      email: { required, email },
-      username: { required, minLength: minLength(8) },
-      password: { required, minLength: minLength(8) },
-      role: { required, integer },
-    },
+  validations() {
+    if (this.$props.invite) {
+      return {
+        form: {
+          email: { required, email },
+          username: { required, minLength: minLength(8) },
+          role: { required, integer },
+        },
+      };
+    } else {
+      return {
+        form: {
+          email: { required, email },
+          username: { required, minLength: minLength(8) },
+          password: { required, minLength: minLength(8) },
+          role: { required, integer },
+        },
+      };
+    }
   },
 
   computed: {
+    title() {
+      if (this.$props.invite) return "Invite User";
+      return "Add User";
+    },
     emailErrors() {
       const errors = [];
       if (!this.$v.form.email.$dirty) return errors;
@@ -118,8 +145,9 @@ export default {
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        this.$store.dispatch('users/addUser', this.form);
-        this.$emit('closeDialog');
+        this.$emit("closeDialog");
+        if (this.$props.invite) return this.$store.dispatch("users/invite", this.form);
+        this.$store.dispatch("users/addUser", this.form);
         this.reset();
       }
     },

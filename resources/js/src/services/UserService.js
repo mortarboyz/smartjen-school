@@ -4,6 +4,7 @@ const API_BASE_URL = 'http://localhost:8000/api';
 const API_ROLE = API_BASE_URL + '/roles'
 const API_USER = API_BASE_URL + '/users';
 const API_USER_DETAIL = API_USER + '/:id';
+const API_INVITE = API_BASE_URL + '/admin/invite';
 
 class UserService {
     getAllRoles() {
@@ -65,6 +66,15 @@ class UserService {
             .then((res) => {
                 return res.status;
             });
+    }
+
+    sendInvite(data) {
+        return axios.post(API_INVITE, data, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+            .then(r => r)
     }
 
     sendChat() {
