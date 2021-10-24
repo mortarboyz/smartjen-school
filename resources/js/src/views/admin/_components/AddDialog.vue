@@ -59,7 +59,13 @@ import { required, email, minLength, integer } from "vuelidate/lib/validators";
 export default {
   props: {
     invite: Boolean,
-    editId: Number,
+    editableIndex: 0,
+    editableItem: {
+      email: null,
+      username: null,
+      password: null,
+      role: null,
+    },
   },
   data() {
     if (this.$props.invite) {
@@ -68,6 +74,15 @@ export default {
           email: null,
           username: null,
           role: null,
+        },
+      };
+    } else if (this.$props.editableIndex > 0) {
+      return {
+        form: {
+          email: this.$props.editableItem.email,
+          username: this.$props.editableItem.username,
+          password: this.$props.editableItem.password,
+          role: this.$props.editableItem.roleId,
         },
       };
     } else {
@@ -93,7 +108,7 @@ export default {
           role: { required, integer },
         },
       };
-    } else if (this.$props.editId) {
+    } else if (this.$props.editableIndex) {
       return {
         form: {
           email: { required, email },
@@ -117,7 +132,7 @@ export default {
   computed: {
     title() {
       if (this.$props.invite) return "Invite User";
-      if (this.$props.editId > 0) return "Edit User";
+      if (this.$props.editableIndex > 0) return "Edit User";
       return "Add User";
     },
     emailErrors() {
@@ -136,7 +151,7 @@ export default {
       return errors;
     },
     passwordErrors() {
-      if (this.$props.editId) return;
+      if (this.$props.editableIndex) return;
       const errors = [];
       if (!this.$v.form.password.$dirty) return errors;
       !this.$v.form.password.minLength &&
@@ -157,12 +172,22 @@ export default {
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        this.$emit("closeDialog");
-        if (this.$props.invite)
-          return this.$store.dispatch("users/invite", this.form);
-        if (this.$props.editId) return console.log(this.form);
+        if (this.$props.invite) {
+          this.$store.dispatch("users/invite", this.form);
+          this.reset();
+          this.$emit("closeDialog");
+          return;
+        }
+        if (this.$props.editableIndex > 0) {
+          console.log(this.form);
+          this.reset();
+          this.$emit("closeDialog");
+          return;
+        }
         this.$store.dispatch("users/addUser", this.form);
         this.reset();
+        this.$emit("closeDialog");
+        return;
       }
     },
 

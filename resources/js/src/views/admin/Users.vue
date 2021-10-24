@@ -2,14 +2,22 @@
   <div>
     <v-toolbar flat>
       <v-spacer></v-spacer>
-      <!-- Add / Edit User Dialog -->
+      <!-- Add User Dialog -->
       <v-dialog max-width="500px" v-model="dialog">
         <template v-slot:activator="{ on, attrs }">
           <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
             Add User
           </v-btn>
         </template>
-        <AddDialog @closeDialog="dialog = false" :editId="editId" />
+        <AddDialog v-if="dialog" @closeDialog="dialog = false" />
+      </v-dialog>
+      <!-- Edit Dialog -->
+      <v-dialog max-width="500px" v-model="dialogEdit">
+        <AddDialog v-if="dialogEdit"
+          @closeDialog="closeEditDialog"
+          :editableItem="editData"
+          :editableIndex="editId"
+        />
       </v-dialog>
       <!-- Invite User Dialog -->
       <v-dialog max-width="500px" v-model="dialogInvite">
@@ -73,7 +81,9 @@ export default {
         selectedId: -1,
         show: false,
       },
+      dialogEdit: false,
       editId: -1,
+      editData: {},
       data: {
         teacher: {
           headers: [
@@ -111,8 +121,14 @@ export default {
       this.$store.dispatch("users/deleteUser", this.deleteDialog.selectedId);
     },
     openEditDialog(item) {
+      this.editData = item;
       this.editId = item.id;
-      this.dialog = true;
+      this.dialogEdit = true;
+    },
+    closeEditDialog() {
+      this.editData = {};
+      this.editId = -1;
+      this.dialogEdit = false;
     },
   },
   computed: {
