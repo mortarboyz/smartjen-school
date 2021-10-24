@@ -118,8 +118,8 @@ export default {
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        // Add API
-        console.log(this.form);
+        this.$store.dispatch('users/addUser', this.form);
+        this.$emit('closeDialog');
         this.reset();
       }
     },

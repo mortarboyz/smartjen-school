@@ -17,6 +17,7 @@ export default {
         },
         success(state, data) {
             localStorage.setItem('access', JSON.stringify(data));
+            localStorage.setItem('token', data.token);
             state.isLogin = true;
             state.user = data.user;
         },
@@ -26,6 +27,7 @@ export default {
         },
         logout(state) {
             localStorage.removeItem('access');
+            localStorage.removeItem('token');
             state.isLogin = false;
             state.user = null;
         }

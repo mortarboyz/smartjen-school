@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum:admins')->except('index', 'getRoles');
+        $this->middleware('auth:sanctum:admins')->except('getRoles');
     }
     /**
      * Display a listing of the resource.
@@ -22,14 +22,16 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $result = ($request->query('role')) ? User::where('roleId', $request->query('role'))->get() : User::all();
+        $result = ($request->query('role')) ? User::where('roleId', $request->query('role'))
+                                                    ->where('schoolId', $request->user()->schoolId)
+                                                    ->orderBy('username')->get() : User::all()->sortByDesc('username');
 
         if ($result) {
             return response()->json([
                 'success' => true,
                 'message' => 'Get user data success.',
                 'data'    => $result
-            ], 201);
+            ], 200);
         }
         return response()->json([
             'success' => false,
@@ -198,7 +200,7 @@ class UserController extends Controller
                 'success' => true,
                 'message' => 'Get roles success.',
                 'data'    => $result
-            ], 201);
+            ], 200);
         }
         return response()->json([
             'success' => false,

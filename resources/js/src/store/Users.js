@@ -29,8 +29,14 @@ export default {
                 commit('setRoles', []);
             });
         },
+        addUser({ commit, dispatch }, data) {
+            UserService.addUser(data).then(() => {
+                dispatch('getTeacherData');
+                dispatch('getStudentData');
+            })
+        },
         deleteUser({ commit, dispatch }, id) {
-            UserService.delete(id).then((res) => {
+            UserService.delete(id).then(() => {
                 dispatch('getTeacherData');
                 dispatch('getStudentData');
             })

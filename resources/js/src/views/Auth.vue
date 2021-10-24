@@ -1,3 +1,4 @@
+// TODO: remove school id for admin login
 <template>
   <v-container fluid class="fill-height">
     <v-row align="center">

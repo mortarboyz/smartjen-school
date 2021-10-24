@@ -1,51 +1,55 @@
 import axios from 'axios'
-import AuthService from './AuthService';
 
 const API_BASE_URL = 'http://localhost:8000/api';
 const API_ROLE = API_BASE_URL + '/roles'
 const API_USER = API_BASE_URL + '/users';
 const API_USER_DETAIL = API_USER + '/:id';
 
-let http = axios.create({
-    headers: {
-        'Authorization': 'Bearer ' + AuthService.getToken()
-    }
-});
-
 class UserService {
     getAllRoles() {
-        return http.get(API_ROLE)
-        .then(res => res.data);
+        return axios.get(API_ROLE)
+            .then(res => res.data);
     }
 
     getAllTeacher() {
-        return http.get(API_USER, {
+        return axios.get(API_USER, {
             params: {
                 role: 1
+            },
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         })
-        .then((res) => {
-            return res.data
-        })
+            .then((res) => {
+                return res.data
+            })
     }
 
     getAllStudent() {
-        return http.get(API_USER, {
+        return axios.get(API_USER, {
             params: {
                 role: 2
+            },
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         })
-        .then((res) => {
-            return res.data
-        })
+            .then((res) => {
+                return res.data
+            })
     }
 
     getOne() {
 
     }
 
-    post() {
-
+    addUser(data) {
+        return axios.post(API_USER, data, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+            .then(r => r)
     }
 
     update() {
@@ -53,10 +57,14 @@ class UserService {
     }
 
     delete(id) {
-        return http.delete(API_USER_DETAIL.replace(':id', id))
-        .then((res) => {
-            return res.status;
-        });
+        return axios.delete(API_USER_DETAIL.replace(':id', id), {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+            .then((res) => {
+                return res.status;
+            });
     }
 
     sendChat() {

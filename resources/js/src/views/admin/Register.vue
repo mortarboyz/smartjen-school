@@ -54,7 +54,7 @@
       {{ snackbar.state.text }}
 
       <template v-slot:action="{ attrs }">
-        <v-btn text v-bind="attrs" @click="snackbar.state.show"> Close </v-btn>
+        <v-btn text v-bind="attrs" @click="snackbar.state.show = false"> Close </v-btn>
       </template>
     </v-snackbar>
   </v-container>
