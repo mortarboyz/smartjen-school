@@ -7,19 +7,25 @@ export default {
         students: [],
     }),
     actions: {
-        getTeacherData({commit}) {
+        getTeacherData({ commit }) {
             UserService.getAllTeacher().then((res) => {
                 commit('setTeacher', res.data)
             }).catch(x => {
                 commit('setTeacher', []);
             });
         },
-        getStudentData({commit}) {
+        getStudentData({ commit }) {
             UserService.getAllStudent().then((res) => {
                 commit('setStudent', res.data)
             }).catch(x => {
                 commit('setStudent', []);
             });
+        },
+        deleteUser({ commit, dispatch }, id) {
+            UserService.delete(id).then((res) => {
+                dispatch('getTeacherData');
+                dispatch('getStudentData');
+            })
         }
     },
     mutations: {

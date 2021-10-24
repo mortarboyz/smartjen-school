@@ -46,8 +46,11 @@ class UserService {
 
     }
 
-    delete() {
-
+    delete(id) {
+        return http.delete(API_USER_DETAIL.replace(':id', id))
+        .then((res) => {
+            return res.status;
+        });
     }
 
     sendChat() {

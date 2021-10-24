@@ -26,7 +26,7 @@
         </template>
       </v-dialog>
       <!-- Delete Dialog -->
-      <v-dialog v-model="deleteDialog" max-width="500px">
+      <v-dialog v-model="deleteDialog.show" max-width="500px">
         <DeleteDialog @OKPressed="deleteConfirm" @closePressed="closeDeleteDialog"/>
       </v-dialog>
     </v-toolbar>
@@ -38,13 +38,13 @@
         <v-tab-item>
           <TableList
             :headers="this.data.teacher.headers"
-            :data="getTeacherFromStore" @delete="openDeleteDialog" @edit="openEditDialog()"
+            :data="getTeacherFromStore" @delete="openDeleteDialog"
           />
         </v-tab-item>
         <v-tab-item>
           <TableList
             :headers="this.data.student.headers"
-            :data="getStudentFromStore" @delete="openDeleteDialog" @edit="openEditDialog()"
+            :data="getStudentFromStore" @delete="openDeleteDialog"
           />
         </v-tab-item>
       </v-tabs-items>
@@ -61,7 +61,10 @@ export default {
       tab: null,
       items: ["Teacher", "Student"],
       dialog: false,
-      deleteDialog: false,
+      deleteDialog: {
+          selectedId: -1,
+          show: false,
+      },
       data: {
         teacher: {
           headers: [
@@ -86,14 +89,17 @@ export default {
     DeleteDialog,
   },
   methods: {
-      openDeleteDialog() {
-          this.deleteDialog = true;
+      openDeleteDialog(item) {
+          this.deleteDialog.show = true;
+          this.deleteDialog.selectedId = item.id;
       },
       deleteConfirm() {
-
+          this.deleteDialog.show = false;
+          this.$store.dispatch('users/deleteUser', this.deleteDialog.selectedId);
       },
       closeDeleteDialog() {
-          this.deleteDialog = false;
+          this.deleteDialog.show = false;
+          this.deleteDialog.selectedId = -1;
       },
       openEditDialog() {
           console.log('openedit')

@@ -6,8 +6,8 @@
     class="elevation-1"
   >
     <template v-slot:item.actions="{ item }">
-      <v-btn small class="mr-2" @click="$emit('edit', item.id)"> Edit </v-btn>
-      <v-btn small @click="$emit('delete', item.id)"> Delete </v-btn>
+      <v-btn small class="mr-2" @click="$emit('edit', item)"> Edit </v-btn>
+      <v-btn small @click="$emit('delete', item)"> Delete </v-btn>
     </template>
   </v-data-table>
 </template>
