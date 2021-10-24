@@ -1,3 +1,4 @@
+import { concat, merge } from "lodash";
 import UserService from "../services/UserService"
 
 export default {
@@ -73,6 +74,10 @@ export default {
                     value: r.id,
                 }
             });
+        },
+        getOneUser: (state, getters) => (id) => {
+            let result = merge(getters.getTeacher, getters.getStudent).find(t => t.id == id);
+            return result;
         }
     }
 }

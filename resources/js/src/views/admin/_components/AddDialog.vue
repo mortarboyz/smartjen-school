@@ -1,7 +1,7 @@
 <template>
   <form>
     <v-card>
-      <v-card-title class="text-h5 grey lighten-2"> {{ title }} </v-card-title>
+      <v-card-title class="text-h5 grey lighten-2"> {{ title }}</v-card-title>
 
       <v-card-text>
         <v-text-field
@@ -59,6 +59,7 @@ import { required, email, minLength, integer } from "vuelidate/lib/validators";
 export default {
   props: {
     invite: Boolean,
+    editId: Number,
   },
   data() {
     if (this.$props.invite) {
@@ -92,6 +93,15 @@ export default {
           role: { required, integer },
         },
       };
+    } else if (this.$props.editId) {
+      return {
+        form: {
+          email: { required, email },
+          username: { required, minLength: minLength(8) },
+          password: { minLength: minLength(8) },
+          role: { required, integer },
+        },
+      };
     } else {
       return {
         form: {
@@ -107,6 +117,7 @@ export default {
   computed: {
     title() {
       if (this.$props.invite) return "Invite User";
+      if (this.$props.editId > 0) return "Edit User";
       return "Add User";
     },
     emailErrors() {
@@ -125,6 +136,7 @@ export default {
       return errors;
     },
     passwordErrors() {
+      if (this.$props.editId) return;
       const errors = [];
       if (!this.$v.form.password.$dirty) return errors;
       !this.$v.form.password.minLength &&
@@ -146,7 +158,9 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         this.$emit("closeDialog");
-        if (this.$props.invite) return this.$store.dispatch("users/invite", this.form);
+        if (this.$props.invite)
+          return this.$store.dispatch("users/invite", this.form);
+        if (this.$props.editId) return console.log(this.form);
         this.$store.dispatch("users/addUser", this.form);
         this.reset();
       }

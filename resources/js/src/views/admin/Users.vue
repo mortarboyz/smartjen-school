@@ -2,23 +2,29 @@
   <div>
     <v-toolbar flat>
       <v-spacer></v-spacer>
-      <!-- Add User Dialog -->
+      <!-- Add / Edit User Dialog -->
       <v-dialog max-width="500px" v-model="dialog">
         <template v-slot:activator="{ on, attrs }">
           <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
             Add User
           </v-btn>
         </template>
-        <AddDialog @closeDialog="dialog = false" />
+        <AddDialog @closeDialog="dialog = false" :editId="editId" />
       </v-dialog>
       <!-- Invite User Dialog -->
       <v-dialog max-width="500px" v-model="dialogInvite">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" dark class="mb-2 ml-2" v-bind="attrs" v-on="on">
+          <v-btn
+            color="primary"
+            dark
+            class="mb-2 ml-2"
+            v-bind="attrs"
+            v-on="on"
+          >
             Invite User
           </v-btn>
         </template>
-        <AddDialog @closeDialog="dialogInvite = false" :invite="true"/>
+        <AddDialog @closeDialog="dialogInvite = false" :invite="true" />
       </v-dialog>
       <!-- Delete Dialog -->
       <v-dialog v-model="deleteDialog.show" max-width="500px">
@@ -38,6 +44,7 @@
             :headers="this.data.teacher.headers"
             :data="getTeacherFromStore"
             @delete="openDeleteDialog"
+            @edit="openEditDialog"
           />
         </v-tab-item>
         <v-tab-item>
@@ -66,6 +73,7 @@ export default {
         selectedId: -1,
         show: false,
       },
+      editId: -1,
       data: {
         teacher: {
           headers: [
@@ -94,16 +102,17 @@ export default {
       this.deleteDialog.show = true;
       this.deleteDialog.selectedId = item.id;
     },
-    deleteConfirm() {
-      this.deleteDialog.show = false;
-      this.$store.dispatch("users/deleteUser", this.deleteDialog.selectedId);
-    },
     closeDeleteDialog() {
       this.deleteDialog.show = false;
       this.deleteDialog.selectedId = -1;
     },
-    openEditDialog() {
-      console.log("openedit");
+    deleteConfirm() {
+      this.deleteDialog.show = false;
+      this.$store.dispatch("users/deleteUser", this.deleteDialog.selectedId);
+    },
+    openEditDialog(item) {
+      this.editId = item.id;
+      this.dialog = true;
     },
   },
   computed: {
