@@ -1,3 +1,5 @@
+import UserService from "../services/UserService"
+
 export default {
     namespaced: true,
     state: () => ({
@@ -5,12 +7,35 @@ export default {
         students: [],
     }),
     actions: {
-        getTeacherData() {
-            return
+        getTeacherData({commit}) {
+            UserService.getAllTeacher().then((res) => {
+                commit('setTeacher', res.data)
+            }).catch(x => {
+                commit('setTeacher', []);
+            });
+        },
+        getStudentData({commit}) {
+            UserService.getAllStudent().then((res) => {
+                commit('setStudent', res.data)
+            }).catch(x => {
+                commit('setStudent', []);
+            });
         }
     },
     mutations: {
+        setTeacher(state, data) {
+            state.teachers = data;
+        },
+        setStudent(state, data) {
+            state.students = data;
+        }
     },
     getters: {
+        getTeacher(state) {
+            return state.teachers;
+        },
+        getStudent(state) {
+            return state.students;
+        }
     }
 }

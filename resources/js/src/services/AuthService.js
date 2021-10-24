@@ -19,6 +19,11 @@ class AuthService {
                 return res.data
             })
     }
+
+    getToken() {
+        let user = JSON.parse(localStorage.getItem('access'));
+        return user.token || null;
+    }
 }
 
 export default new AuthService();

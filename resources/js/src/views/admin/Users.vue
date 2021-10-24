@@ -32,10 +32,10 @@
       </v-tab>
       <v-tabs-items v-model="tab">
         <v-tab-item>
-          <TableList :headers="this.data.teacher.headers" :data="this.data.teacher.data" />
+          <TableList :headers="this.data.teacher.headers" :data="getTeacherFromStore" />
         </v-tab-item>
         <v-tab-item>
-          <TableList :headers="this.data.student.headers" :data="this.data.student.data" />
+          <TableList :headers="this.data.student.headers" :data="getStudentFromStore" />
         </v-tab-item>
       </v-tabs-items>
     </v-tabs>
@@ -56,23 +56,11 @@ export default {
             { text: "Username", value: "username" },
             { text: "Email", value: "email" },
           ],
-          data: [
-            {
-              username: "Test",
-              email: "email@example.com",
-            },
-          ],
         },
         student: {
           headers: [
             { text: "Username", value: "username" },
             { text: "Email", value: "email" },
-          ],
-          data: [
-            {
-              username: "Test",
-              email: "email@example.com",
-            },
           ],
         },
       },
@@ -83,14 +71,18 @@ export default {
     AddDialog,
   },
   methods: {
-    inc() {
-      console.log(this.$store.state.count);
-    },
   },
   computed: {
-    getCount() {
-      return this.$store.state.count;
-    },
+      getTeacherFromStore() {
+          return this.$store.getters['users/getTeacher'];
+      },
+      getStudentFromStore() {
+          return this.$store.getters['users/getStudent'];
+      }
   },
+  mounted() {
+      this.$store.dispatch('users/getTeacherData');
+      this.$store.dispatch('users/getStudentData');
+  }
 };
 </script>
