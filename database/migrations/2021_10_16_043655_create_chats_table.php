@@ -17,6 +17,7 @@ class CreateChatsTable extends Migration
             $table->id();
             $table->bigInteger('senderId')->unsigned();
             $table->bigInteger('receiverId')->unsigned();
+            $table->text('message');
             $table->timestamps();
             $table->foreign('senderId')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('receiverId')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
