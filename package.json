@@ -31,6 +31,8 @@
     "dependencies": {
         "deepmerge": "^4.2.2",
         "es6-promise": "^4.2.8",
+        "laravel-echo": "^1.11.2",
+        "pusher-js": "^7.0.3",
         "vuelidate": "^0.7.6",
         "vuetify": "^2.5.10"
     }
