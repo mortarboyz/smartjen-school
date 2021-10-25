@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -12,34 +13,22 @@ class LoginController extends Controller
 {
     public function authenticate(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['required', 'string', 'min:8', 'max:255'],
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Check your credentials.',
-                'data' => $validator->errors()
-            ], 400);
-        }
+        $check = (!$request->schoolId)? Admin::where('email', $request->email)->first() : User::where('email', $request->email)->first();
 
-        $admin = Admin::where('email', $request->email)->first();
-
-        if (!$admin || !Hash::check($request->password, $admin->password)) {
+        if (!$check || !Hash::check($request->password, $check->password)) {
             return response()->json([
                 'success'   => false,
                 'message' => ['These credentials do not match our records.']
             ], 404);
         }
 
-        $token = $admin->createToken('token_login')->plainTextToken;
+        $token = $check->createToken('token_login')->plainTextToken;
 
         $response = [
             'success'   => true,
             'message'   => 'Auth success.',
             'data'      => [
-                'user'      => $admin,
+                'user'      => $check,
                 'token'     => $token
             ]
         ];
