@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,3 +24,15 @@ Route::prefix('admin')->group(function () {
 });
 Route::resource('users', UserController::class)->except(['create', 'edit']);
 Route::get('roles', [UserController::class, 'getRoles']);
+
+Route::middleware(['auth:sanctum:users'])->group(function () {
+    /**
+     * Get Message by receiverId
+     */
+    Route::get('chats/{receiverId}', [ChatController::class, 'fetchChats']);
+
+    /**
+     * Send Message to receiverId
+     */
+    Route::post('chats/{receiverId}', [ChatController::class, 'sendChat']);
+});
