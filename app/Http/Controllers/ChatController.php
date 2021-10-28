@@ -12,8 +12,22 @@ class ChatController extends Controller
     /**
      * Get Chat Data Based on Param Id (Receiver ID)
      */
-    public function fetchChats()
+    public function fetchChats(Request $request, $receiverId)
     {
+        try {
+
+            $chats = Chat::whereIn('senderId', [$request->user()->id, $receiverId])->whereIn('receiverId', [$request->user()->id, $receiverId])->orderByDesc('created_at')->get();
+            return response()->json([
+                'success' => true,
+                'message' => 'Fetch chat success.',
+                'data'    => $chats
+            ], 201);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch chat.',
+            ], 409);
+        }
     }
 
     /**
