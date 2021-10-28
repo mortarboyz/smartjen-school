@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSent;
 use App\Models\Chat;
 use App\Models\User;
 use Error;
@@ -55,7 +56,7 @@ class ChatController extends Controller
                 'message' => $request->input('message')
             ]);
 
-            //TODO: Broadcast Chat!
+            broadcast(new MessageSent($chat))->toOthers();
 
             return response()->json([
                 'success' => true,
