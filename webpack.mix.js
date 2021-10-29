@@ -10,7 +10,9 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
-mix.js('resources/js/app.js', 'public/js')
+/**
+ * For Admin Dashboard
+ */
+mix.js('resources/js/src/admin/main.js', 'public/js/admin')
     .vue()
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css/admin');

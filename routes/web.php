@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('app');
+Route::prefix('dashboard')->group(function () {
+    Route::get('/admin', function () {
+        return view('admin');
+    });
+    Route::get('/teacher', function () {
+        return view('teacher');
+    });
+    Route::get('/student', function () {
+        return view('student');
+    });
 });

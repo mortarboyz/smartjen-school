@@ -1,4 +1,3 @@
-// TODO: remove school id for admin login
 <template>
   <v-container fluid class="fill-height">
     <v-row align="center">
@@ -113,14 +112,6 @@ export default {
       !this.$v.password.minLength &&
         errors.push("Password must be at most 8 characters long.");
       !this.$v.password.required && errors.push("Password is required.");
-      return errors;
-    },
-    schoolIdErrors() {
-      const errors = [];
-      if (!this.$v.schoolId.$dirty) return errors;
-      !this.$v.schoolId.minLength &&
-        errors.push("School ID must be at most 10 characters long.");
-      !this.$v.schoolId.required && errors.push("School ID is required.");
       return errors;
     },
   },
