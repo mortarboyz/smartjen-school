@@ -18,10 +18,19 @@
           type="button"
           style="margin-right: 10px"
           class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#inviteModal"
         >
           Invite
         </button>
-        <button type="button" class="btn btn-primary">Add</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#addModal"
+        >
+          Add
+        </button>
       </div>
     </div>
 
@@ -86,13 +95,35 @@
       </div>
     </div>
   </main>
+
+  <div
+    class="modal fade"
+    id="inviteModal"
+    tabindex="-1"
+    aria-labelledby="inviteModalLabel"
+    aria-hidden="true"
+  >
+    <InviteModal />
+  </div>
+
+  <div
+    class="modal fade"
+    id="addModal"
+    tabindex="-1"
+    aria-labelledby="addModalLabel"
+    aria-hidden="true"
+  >
+    <InviteModal />
+  </div>
 </template>
 
 <script>
 import Table from "../components/Table.vue";
+import InviteModal from "../components/InviteModal.vue";
 export default {
   components: {
     Table,
+    InviteModal,
   },
   setup() {
     let headers = {
