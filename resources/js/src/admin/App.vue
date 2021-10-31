@@ -1,9 +1,8 @@
 <template>
   <!-- App.vue -->
-  <p>asdasdsa</p>
+  <router-view></router-view>
 </template>
 
 <script>
-export default {
-};
+export default {};
 </script>
