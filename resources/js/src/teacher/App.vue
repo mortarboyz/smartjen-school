@@ -1,11 +1,8 @@
 <template>
   <!-- App.vue -->
-  <v-app>
-    <p>Teacher App</p>
-  </v-app>
+  <router-view></router-view>
 </template>
 
 <script>
-export default {
-};
+export default {};
 </script>

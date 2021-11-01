@@ -8,8 +8,8 @@
 </head>
 <body>
     <div id="root">
-        <student />
+
     </div>
-    <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{ mix('js/student/main.js') }}"></script>
 </body>
 </html>

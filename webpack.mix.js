@@ -11,8 +11,11 @@ const mix = require('laravel-mix');
  |
  */
 /**
- * For Admin Dashboard
+ * For All Dashboard
  */
 mix.js('resources/js/src/admin/main.js', 'public/js/admin')
+    .js('resources/js/src/teacher/main.js', 'public/js/teacher')
+    .js('resources/js/src/student/main.js', 'public/js/student')
     .vue()
     .sass('resources/sass/app.scss', 'public/css/admin');
+
