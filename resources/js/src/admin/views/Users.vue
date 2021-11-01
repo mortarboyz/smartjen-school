@@ -113,17 +113,19 @@
     aria-labelledby="addModalLabel"
     aria-hidden="true"
   >
-    <InviteModal />
+    <AddModal />
   </div>
 </template>
 
 <script>
 import Table from "../components/Table.vue";
 import InviteModal from "../components/InviteModal.vue";
+import AddModal from "../components/AddModal.vue";
 export default {
   components: {
     Table,
     InviteModal,
+    AddModal,
   },
   setup() {
     let headers = {

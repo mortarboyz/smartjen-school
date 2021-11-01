@@ -2,7 +2,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Invite User</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
         <button
           type="button"
           class="btn-close"
@@ -28,6 +28,16 @@
             class="form-control"
             id="username"
             placeholder="example"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            placeholder="********"
           />
         </div>
 
