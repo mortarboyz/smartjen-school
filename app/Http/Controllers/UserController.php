@@ -24,7 +24,8 @@ class UserController extends Controller
     {
         $result = ($request->query('role')) ? User::where('roleId', $request->query('role'))
                                                     ->where('schoolId', $request->user()->schoolId)
-                                                    ->orderBy('username')->get() : User::all()->sortByDesc('username');
+                                                    ->orderBy('username')->get() : User::where('schoolId', $request->user()->schoolId)
+                                                    ->orderBy('username')->get();
 
         if ($result) {
             return response()->json([
