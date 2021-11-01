@@ -13,25 +13,6 @@
       "
     >
       <h1 class="h2">Users</h1>
-      <div class="btn-toolbar">
-        <button
-          type="button"
-          style="margin-right: 10px"
-          class="btn btn-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#inviteModal"
-        >
-          Invite
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#addModal"
-        >
-          Add
-        </button>
-      </div>
     </div>
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
