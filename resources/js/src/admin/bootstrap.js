@@ -10,6 +10,7 @@ try {
     window.$ = window.jQuery = require('jquery');
     require('bootstrap/dist/css/bootstrap.min.css')
     require('bootstrap');
+    require('bootstrap-icons/font/bootstrap-icons.css');
     require('datatables.net-bs5')( window, $ );
 } catch (e) {}
 
