@@ -10,6 +10,7 @@ let routes = [
     { path: '/register', component: Register },
     {
         path: '', component: Base, children: [
+            { path: '', redirect: 'users' },
             { path: 'users', component: Users }
         ]
     },
