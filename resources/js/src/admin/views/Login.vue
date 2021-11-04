@@ -2,10 +2,11 @@
   <div style="height: 100vh;" class="d-flex align-items-center">
     <div class="form-signin">
       <h1 class="h3 mb-3 font-weight-normal text-center">
-        Login Admin Dashboard
+        Login Admin
       </h1>
       <input
         type="email"
+        id="inputEmail"
         class="form-control"
         placeholder="Email address"
         required
@@ -13,19 +14,14 @@
       />
       <input
         type="password"
+        id="inputPassword"
         class="form-control"
         placeholder="Password"
         required
       />
-      <input
-        type="text"
-        class="form-control"
-        placeholder="School Name"
-        required
-      />
       <div class="d-flex justify-content-between">
-          <router-link to="/users"><button class="btn btn-success">Login</button></router-link>
-          <router-link to="/register"><button class="btn btn-secondary">Register</button></router-link>
+        <router-link to="/users"><button class="btn btn-success">Login</button></router-link>
+        <router-link to="/register"><button class="btn btn-secondary">Register</button></router-link>
       </div>
     </div>
   </div>
@@ -54,11 +50,6 @@
   border-bottom-left-radius: 0;
 }
 .form-signin input[type="password"] {
-  margin-bottom: -1px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-.form-signin input[type="text"] {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
